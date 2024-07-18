@@ -296,53 +296,64 @@
     <button id="darkModeToggle" class="dark-mode-toggle">🕶</button>
 
   <script>
-    document.getElementById('doshaForm').addEventListener('submit', function(event) {
-      event.preventDefault();
+// Function to calculate dosha result
+function calculateDosha(event) {
+    event.preventDefault();
 
-      // Initialize dosha counts
-      const doshaCounts = { a: 0, b: 0, c: 0 };
+    const formData = new FormData(document.getElementById('doshaForm'));
+    let counts = {
+        'a': 0,
+        'b': 0,
+        'c': 0
+    };
 
-      // Calculate dosha counts based on user answers
-      const formData = new FormData(event.target);
-      formData.forEach(value => {
-        doshaCounts[value]++;
-      });
-
-      // Determine dosha result
-      let doshaResult;  
-      const maxCount = Math.max(counts['a'], counts['b'], counts['c']);
-      const countKeys = Object.keys(counts).filter(key => counts[key] === maxCount);
-
-  // Case 3: Tridosha
-  if (countKeys.length === 3) {
-    result = 'You are tridosha, meaning you have the qualities of all vata, pitta and kapha in you';
-  } else if (countKeys.length === 2) {
-    // Case 2: Two options tie
-    if (countKeys.includes('a') && countKeys.includes('b')) {
-      result = 'Your primary dosha is vata-pitta';
-    } else if (countKeys.includes('b') && countKeys.includes('c')) {
-      result = 'Your primary dosha is pitta-kapha';
-    } else if (countKeys.includes('a') && countKeys.includes('c')) {
-      result = 'Your primary dosha is vata-kapha';
+    // Count selections
+    for (const value of formData.values()) {
+        counts[value]++;
     }
-  } else {
-    // Case 1: Majority of one option
-    if (maxCount === counts['a']) {
-      result = 'Your primary dosha is vata';
-    } else if (maxCount === counts['b']) {
-      result = 'Your primary dosha is pitta';
-    } else if (maxCount === counts['c']) {
-      result = 'Your primary dosha is kapha';
+
+    let result = '';
+
+    // Determine dosha result
+    const maxCount = Math.max(counts['a'], counts['b'], counts['c']);
+    const countKeys = Object.keys(counts).filter(key => counts[key] === maxCount);
+
+    // Case 3: Tridosha
+    if (countKeys.length === 3) {
+        result = 'You are tridosha, meaning you have the qualities of all vata, pitta and kapha in you';
+    } else if (countKeys.length === 2) {
+        // Case 2: Two options tie
+        if (countKeys.includes('a') && countKeys.includes('b')) {
+            result = 'Your primary dosha is vata-pitta';
+        } else if (countKeys.includes('b') && countKeys.includes('c')) {
+            result = 'Your primary dosha is pitta-kapha';
+        } else if (countKeys.includes('a') && countKeys.includes('c')) {
+            result = 'Your primary dosha is vata-kapha';
+        }
+    } else {
+        // Case 1: Majority of one option
+        if (maxCount === counts['a']) {
+            result = 'Your primary dosha is vata';
+        } else if (maxCount === counts['b']) {
+            result = 'Your primary dosha is pitta';
+        } else if (maxCount === counts['c']) {
+            result = 'Your primary dosha is kapha';
+        }
     }
-  }
 
-      // Store dosha result and counts in localStorage
-      localStorage.setItem('doshaResult', doshaResult);
-      localStorage.setItem('doshaCounts', JSON.stringify(doshaCounts));
+    // Store result in localStorage
+    localStorage.setItem('doshaResult', result);
+    localStorage.setItem('doshaCounts', JSON.stringify(counts));
 
-      // Redirect to result page
-      window.location.href = 'result.html';
-    });
+    // Redirect to result page
+    window.location.href = 'result.html';
+
+    return false;
+}
+
+// Add event listener to form submission
+document.getElementById('doshaForm').addEventListener('submit', calculateDosha);
+
 
     // Dark mode toggle functionality
     const darkModeToggle = document.getElementById('darkModeToggle');
