@@ -309,16 +309,32 @@
       });
 
       // Determine dosha result
-      let doshaResult;
-      if (doshaCounts['a'] > doshaCounts['b'] && doshaCounts['a'] > doshaCounts['c']) {
-        doshaResult = 'Your dominant dosha is Vata.';
-      } else if (doshaCounts['b'] > doshaCounts['a'] && doshaCounts['b'] > doshaCounts['c']) {
-        doshaResult = 'Your dominant dosha is Pitta.';
-      } else if (doshaCounts['c'] > doshaCounts['a'] && doshaCounts['c'] > doshaCounts['b']) {
-        doshaResult = 'Your dominant dosha is Kapha.';
-      } else {
-        doshaResult = 'You have a balanced dosha.';
-      }
+      let doshaResult;  
+      const maxCount = Math.max(counts['a'], counts['b'], counts['c']);
+      const countKeys = Object.keys(counts).filter(key => counts[key] === maxCount);
+
+  // Case 3: Tridosha
+  if (countKeys.length === 3) {
+    result = 'You are tridosha, meaning you have the qualities of all vata, pitta and kapha in you';
+  } else if (countKeys.length === 2) {
+    // Case 2: Two options tie
+    if (countKeys.includes('a') && countKeys.includes('b')) {
+      result = 'Your primary dosha is vata-pitta';
+    } else if (countKeys.includes('b') && countKeys.includes('c')) {
+      result = 'Your primary dosha is pitta-kapha';
+    } else if (countKeys.includes('a') && countKeys.includes('c')) {
+      result = 'Your primary dosha is vata-kapha';
+    }
+  } else {
+    // Case 1: Majority of one option
+    if (maxCount === counts['a']) {
+      result = 'Your primary dosha is vata';
+    } else if (maxCount === counts['b']) {
+      result = 'Your primary dosha is pitta';
+    } else if (maxCount === counts['c']) {
+      result = 'Your primary dosha is kapha';
+    }
+  }
 
       // Store dosha result and counts in localStorage
       localStorage.setItem('doshaResult', doshaResult);
