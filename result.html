@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dosha Assessment Result</title>
+  <link rel="stylesheet" href="doshatest.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js library -->
+  <style>
+    .form-title {
+      text-align: center; /* Center align the heading */
+      font-weight: normal; /* Unbold the heading */
+      font-size: 20px; /* Reduce font size */
+    }
+    .dosha-result {
+      text-align: center; /* Center align the text */
+      font-size: 24px; /* Larger font size */
+      font-weight: bold; /* Bold text */
+    }
+    .chart-container {
+      max-width: 100%; /* Ensure the chart doesn't overflow on smaller screens */
+      margin: 0 auto; /* Center the chart */
+    }
+    canvas {
+      width: 100% !important; /* Make canvas responsive */
+      height: auto !important; /* Maintain aspect ratio */
+    }
+    .dark-mode-toggle {
+      display: block; /* Ensure the button is full-width on mobile */
+      width: 10%;
+      margin: 10px 0;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      .form-title {
+        font-size: 18px; /* Slightly smaller font for smaller screens */
+      }
+      .dosha-result {
+        font-size: 20px; /* Slightly smaller font for smaller screens */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h3 class="form-title">Your Dosha has been analysed!</h3>
+    
+    <!-- Display dosha result -->
+    <p class="dosha-result">
+      <!-- JavaScript will populate this element -->
+    </p>
+
+    <!-- Display pie chart -->
+    <div class="chart-container">
+      <canvas id="doshaChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Dark mode toggle button -->
+  <button id="darkModeToggle" class="dark-mode-toggle">Dark Mode</button>
+
+  <!-- JavaScript for displaying dosha result and pie chart -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Retrieve dosha result from localStorage
+      const doshaResult = localStorage.getItem('doshaResult');
+      
+      // Display dosha result
+      const doshaResultElement = document.querySelector('.dosha-result');
+      doshaResultElement.textContent = doshaResult;
+
+      // Retrieve counts from localStorage
+      const counts = JSON.parse(localStorage.getItem('doshaCounts'));
+
+      // Calculate percentages for pie chart
+      const total = counts['a'] + counts['b'] + counts['c'];
+      const vataPercent = (counts['a'] / total) * 100;
+      const pittaPercent = (counts['b'] / total) * 100;
+      const kaphaPercent = (counts['c'] / total) * 100;
+
+      // Draw pie chart
+      const ctx = document.getElementById('doshaChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: ['Vata', 'Pitta', 'Kapha'],
+          datasets: [{
+            label: 'Dosha percentages',
+            data: [vataPercent, pittaPercent, kaphaPercent],
+            backgroundColor: ['#78be66', '#a49cc3', '#e69d41']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          title: {
+            display: true,
+            text: 'Dosha Assessment'
+          }
+        }
+      });
+    });
+
+    // Dark mode toggle functionality
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+
+    darkModeToggle.addEventListener('click', function() {
+      body.classList.toggle('dark-mode');
+
+      // Store theme preference in localStorage
+      const isDarkMode = body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode);
+    });
+
+    // Check if dark mode preference is stored and apply it
+    const storedDarkMode = localStorage.getItem('darkMode');
+    if (storedDarkMode === 'true') {
+      body.classList.add('dark-mode');
+    }
+  </script>
+</body>
+</html>
