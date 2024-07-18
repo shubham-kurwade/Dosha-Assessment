@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dosha Assessment</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .form-container {
+      max-width: 600px; /* Limit width to ensure readability on large screens */
+      margin: 0 auto; /* Center the form container */
+    }
+    .question {
+      margin-bottom: 20px; /* Add space between questions */
+    }
+    label {
+      display: block; /* Ensure labels are block elements for better layout */
+      margin-bottom: 5px; /* Add space between label and input */
+    }
+    input[type="radio"] {
+      margin-right: 10px; /* Add space between radio button and label */
+    }
+    .submit-button {
+      display: block; /* Make submit button full-width */
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .submit-button:hover {
+      background-color: #45a049; /* Darker background on hover */
+    }
+    .dark-mode-toggle {
+      display: block; /* Ensure the button is full-width on mobile */
+      width: 10%;
+      margin: 10px 0;
+    }
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      .form-title {
+        font-size: 18px; /* Slightly smaller font for smaller screens */
+      }
+      .question {
+        font-size: 16px; /* Slightly smaller font for smaller screens */
+      }
+      .submit-button {
+        font-size: 14px; /* Slightly smaller font for smaller screens */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1 class="form-title">Dosha Assessment</h1>
+    <p class="form-description">ANSWER WITH UTMOST HONESTY</p>
+
+    <form id="doshaForm" onsubmit="return calculateDosha(event)">
+      <!-- Questions -->
+      <div class="question-container">
+        <div class="question">
+          <p>BODY FRAME</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="bodyFrame" value="a" required> (a) Thin, bony and small framed. Hardly gain weight
+            </label>
+            <label>
+              <input type="radio" name="bodyFrame" value="b"> (b) Medium built. Can gain or lose weight easily.
+            </label>
+            <label>
+              <input type="radio" name="bodyFrame" value="c"> (c) Large built. Gain weight easily but difficult to lose.
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>WALK & TALK</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="walkTalk" value="a" required> (a) Fast walk and talk
+            </label>
+            <label>
+              <input type="radio" name="walkTalk" value="b"> (b) Moderate and determined walk
+            </label>
+            <label>
+              <input type="radio" name="walkTalk" value="c"> (c) Slow and steady walk
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>WEATHER REACTION</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="weatherReaction" value="a" required> (a) Enjoy warm climate but feel uncomfortable in cool weather
+            </label>
+            <label>
+              <input type="radio" name="weatherReaction" value="b"> (b) Enjoy cool weather and dislike warm climate
+            </label>
+            <label>
+              <input type="radio" name="weatherReaction" value="c"> (c) Comfortable for most of the year but prefer summer and spring. Don't like damp climate
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>SWEATING</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="sweating" value="a" required> (a) Sweat little but not much. Have minimal body odour
+            </label>
+            <label>
+              <input type="radio" name="sweating" value="b"> (b) Sweat a lot. Have medium body odour
+            </label>
+            <label>
+              <input type="radio" name="sweating" value="c"> (c) Sweat moderately but sweat a lot when working hard. Have strong body odour
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>APPETITE</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="appetite" value="a" required> (a) Irregular. Sometimes I feel hungry, sometimes I don't
+            </label>
+            <label>
+              <input type="radio" name="appetite" value="b"> (b) Strong and sharp. Always feel hungry
+            </label>
+            <label>
+              <input type="radio" name="appetite" value="c"> (c) Decent appetite. Have a tendency to eat for comfort and taste
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>SKIN</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="skin" value="a" required> (a) Normal to dry, rough, thin, and cool. Skin issues like dryness, dullness, and wrinkles
+            </label>
+            <label>
+              <input type="radio" name="skin" value="b"> (b) Normal to oily, soft, reddish, sensitive, and warm. Skin issues like inflammation
+            </label>
+            <label>
+              <input type="radio" name="skin" value="c"> (c) Normal to oily, soft, thick, and cool. Skin issues like excessive oiliness, itching, and fungal infections
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>HAIR</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="hair" value="a" required> (a) Rough, dry, and wavy. I get split ends easily
+            </label>
+            <label>
+              <input type="radio" name="hair" value="b"> (b) Normal, straight, thin, and brownish
+            </label>
+            <label>
+              <input type="radio" name="hair" value="c"> (c) Thick, curly, and oily. Hair color tends to be on the darker side
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>LIPS & TEETH</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="lipsTeeth" value="a" required> (a) Thin lips that tend to get dry. Teeth can be somewhat uneven and may require constant attention
+            </label>
+            <label>
+              <input type="radio" name="lipsTeeth" value="b"> (b) Medium-sized soft lips. Upper lip slightly darker than lower lip. Teeth are medium-sized but I tend to suffer from cavities
+            </label>
+            <label>
+              <input type="radio" name="lipsTeeth" value="c"> (c) Large and smooth lips. Teeth are well-formed and aligned, requiring less care in general
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>EYES</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="eyes" value="a" required> (a) Small in size. Feel dry and sleepy often. I blink a lot
+            </label>
+            <label>
+              <input type="radio" name="eyes" value="b"> (b) Medium in size. I often get reddish eyes
+            </label>
+            <label>
+              <input type="radio" name="eyes" value="c"> (c) Big and attractive. I have thick eyelashes
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>GENERAL</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="general" value="a" required> (a) Cracking sound in joints. Small forehead. Nails crack easily
+            </label>
+            <label>
+              <input type="radio" name="general" value="b"> (b) Black moles on the body. Medium forehead. Nails are pink and soft
+            </label>
+            <label>
+              <input type="radio" name="general" value="c"> (c) Disproportionate body like heavy thighs, and hips. Large forehead. Nails are wide and whitish
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>MEMORY</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="memory" value="a" required> (a) Quick to learn but quick to forget. Short-term memory is good
+            </label>
+            <label>
+              <input type="radio" name="memory" value="b"> (b) Average speed of learning. But once learned, never forgets
+            </label>
+            <label>
+              <input type="radio" name="memory" value="c"> (c) Slow to learn but remembers for a long time. Long-term memory is good
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>MIND</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="mind" value="a" required> (a) Mind tends to get restless easily
+            </label>
+            <label>
+              <input type="radio" name="mind" value="b"> (b) Mind gets impatient or aggressive easily
+            </label>
+            <label>
+              <input type="radio" name="mind" value="c"> (c) Mind remains cool and calm. Mostly unruffled
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>MIND ACTIONS</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="mindActions" value="a" required> (a) Overthinking
+            </label>
+            <label>
+              <input type="radio" name="mindActions" value="b"> (b) Quick implementation
+            </label>
+            <label>
+              <input type="radio" name="mindActions" value="c"> (c) Lazy implementation. Has a tendency to procrastinate
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>SLEEP QUALITY</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="sleepQuality" value="a" required> (a) Light and disturbed sleep. I wake up easily in the morning
+            </label>
+            <label>
+              <input type="radio" name="sleepQuality" value="b"> (b) Moderate but regular. I can go back to sleep easily
+            </label>
+            <label>
+              <input type="radio" name="sleepQuality" value="c"> (c) Deep and heavy. I can't easily wake up in the morning
+            </label>
+          </div>
+        </div>
+
+        <div class="question">
+          <p>EMOTIONAL NATURE</p>
+          <div class="options">
+            <label>
+              <input type="radio" name="emotionalNature" value="a" required> (a) I worry a lot. Often feel nervous and anxious
+            </label>
+            <label>
+              <input type="radio" name="emotionalNature" value="b"> (b) I often get irritable, angry, and impatient
+            </label>
+            <label>
+              <input type="radio" name="emotionalNature" value="c"> (c) Loving and caring. It takes a lot to make me angry
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit button -->
+      <button type="submit" class="submit-button">Submit</button>
+    </form>
+  </div>
+
+    <!-- Dark mode toggle button -->
+    <button id="darkModeToggle" class="dark-mode-toggle">Dark Mode</button>
+
+  <script>
+    document.getElementById('doshaForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Initialize dosha counts
+      const doshaCounts = { a: 0, b: 0, c: 0 };
+
+      // Calculate dosha counts based on user answers
+      const formData = new FormData(event.target);
+      formData.forEach(value => {
+        doshaCounts[value]++;
+      });
+
+      // Determine dosha result
+      let doshaResult;
+      if (doshaCounts['a'] > doshaCounts['b'] && doshaCounts['a'] > doshaCounts['c']) {
+        doshaResult = 'Your dominant dosha is Vata.';
+      } else if (doshaCounts['b'] > doshaCounts['a'] && doshaCounts['b'] > doshaCounts['c']) {
+        doshaResult = 'Your dominant dosha is Pitta.';
+      } else if (doshaCounts['c'] > doshaCounts['a'] && doshaCounts['c'] > doshaCounts['b']) {
+        doshaResult = 'Your dominant dosha is Kapha.';
+      } else {
+        doshaResult = 'You have a balanced dosha.';
+      }
+
+      // Store dosha result and counts in localStorage
+      localStorage.setItem('doshaResult', doshaResult);
+      localStorage.setItem('doshaCounts', JSON.stringify(doshaCounts));
+
+      // Redirect to result page
+      window.location.href = 'result.html';
+    });
+
+    // Dark mode toggle functionality
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+
+    darkModeToggle.addEventListener('click', function() {
+      body.classList.toggle('dark-mode');
+
+      // Store theme preference in localStorage
+      const isDarkMode = body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode);
+    });
+
+    // Check if dark mode preference is stored and apply it
+    const storedDarkMode = localStorage.getItem('darkMode');
+    if (storedDarkMode === 'true') {
+      body.classList.add('dark-mode');
+    }
+  </script>
+</body>
+</html>
