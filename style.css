@@ -42,6 +42,18 @@ body {
 
 .question {
   margin-bottom: 10px;
+  position: relative; /* Ensure relative positioning for line */
+}
+
+.question::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px; /* Adjust as needed */
+  width: calc(100% - 10px); /* Adjust width minus padding */
+  height: 2px; /* Line height */
+  background-color: #3498db; /* Faint colored line */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow effect */
 }
 
 .options {
@@ -54,17 +66,25 @@ body {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #3498db; /* Cyan */
+  background-color: #4CAF50; /* Green */
   color: #fff;
   border: none;
-  padding: 10px 20px;
+  padding: 20px 20px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 8px;
   transition: background-color 0.3s ease, color 0.3s ease;
+  font-size: 12px;
+  display: flex; /* Ensure contents align properly */
+  justify-content: center; /* Center align content */
+  align-items: center; /* Center align content */
 }
 
+/* .dark-mode-toggle span {
+  margin: 0 5px; /* Adjust spacing between D & M */
+} */
+
 .dark-mode-toggle:hover {
-  background-color: #2980b9; /* Darker Cyan */
+  background-color: #45a049; /* Darker Green */
 }
 
 .submit-button {
@@ -88,4 +108,36 @@ body {
 }
 
 .dark-mode .form-title,
-.dark
+.dark-mode .form-description,
+.dark-mode .question,
+.dark-mode .options label {
+  color: #ccc;
+}
+
+.dark-mode .submit-button,
+.dark-mode .dark-mode-toggle {
+  background-color: #3498db; /* Cyan */
+  color: #fff;
+}
+
+.dark-mode .submit-button:hover,
+.dark-mode .dark-mode-toggle:hover {
+  background-color: #2980b9; /* Darker Cyan */
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+  .form-container {
+    margin: 10px;
+    padding: 15px;
+  }
+
+  .dark-mode-toggle {
+    padding: 8px 15px;
+    font-size: 12px; /* Adjust font size */
+  }
+
+  .submit-button {
+    padding: 8px 15px;
+  }
+}
