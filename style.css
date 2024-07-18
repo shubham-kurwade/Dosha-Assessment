@@ -29,6 +29,10 @@ body {
   font-weight: bold;
   margin-bottom: 10px;
   text-align: center;
+  background-color: cyan;
+  padding: 20px 0; /* 20px padding above and below the text, 0 padding left and right */
+  display: block; /* Ensures the element takes full width */
+  box-sizing: border-box; /* Includes padding and border in the element's total width and height */
 }
 
 .form-description {
